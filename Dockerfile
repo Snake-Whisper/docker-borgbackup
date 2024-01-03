@@ -12,6 +12,7 @@ LABEL maintainer="aptalca"
 RUN \
   echo "**** install runtime packages ****" && \
   apk add --no-cache --upgrade \
+    borgbackup \
     logrotate \
     nano \
     netcat-openbsd \
@@ -38,4 +39,4 @@ COPY /root /
 
 EXPOSE 2222
 
-VOLUME /config
+VOLUME /config /borg-repositories
