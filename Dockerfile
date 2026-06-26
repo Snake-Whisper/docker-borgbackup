@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/linuxserver/baseimage-alpine:3.23
+FROM ghcr.io/linuxserver/baseimage-alpine:3.24
 
 # set version label
 ARG BUILD_DATE
@@ -11,6 +11,7 @@ LABEL maintainer="aptalca"
 
 RUN \
   echo "**** install runtime packages ****" && \
+  apk upgrade --update && \
   apk add --no-cache --upgrade \
     borgbackup \
     logrotate \
@@ -19,7 +20,7 @@ RUN \
     sudo && \
   echo "**** install openssh-server ****" && \
   if [ -z ${OPENSSH_RELEASE+x} ]; then \
-    OPENSSH_RELEASE=$(curl -sL "http://dl-cdn.alpinelinux.org/alpine/v3.23/main/x86_64/APKINDEX.tar.gz" | tar -xz -C /tmp && \
+    OPENSSH_RELEASE=$(curl -sL "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/APKINDEX.tar.gz" | tar -xz -C /tmp && \
     awk '/^P:openssh-server-pam$/,/V:/' /tmp/APKINDEX | sed -n 2p | sed 's/^V://'); \
   fi && \
   apk add --no-cache \
